@@ -1,0 +1,7 @@
+{
+    "name": "crop-type-segmentation",
+    "image": "crop-type-segmentation:latest",
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "remoteEnv": {"PYTHONPATH": "${containerEnv:PYTHONPATH}:/workspace"}
+} 
