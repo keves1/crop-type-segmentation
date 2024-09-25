@@ -3,5 +3,12 @@
     "image": "crop-type-segmentation:latest",
     "workspaceFolder": "/crop-type-segmentation",
     "workspaceMount": "source=${localWorkspaceFolder},target=/crop-type-segmentation,type=bind",
-    "remoteEnv": {"PYTHONPATH": "${containerEnv:PYTHONPATH}:/crop-type-segmentation"}
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    }
 } 
