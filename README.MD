@@ -14,7 +14,7 @@ Use the Dev Containers extension in VSCode to open the code in the container (se
 
 ### Data
 
-Both the Landsat 9 and CDL data can be obtained from Google Earth Engine by running the script [here](https://code.earthengine.google.com/bdeebff9f7b47e6473e7721827831c24?noload=true).
+Both the Landsat 9 and CDL data can be obtained from Google Earth Engine by running the script [here](https://code.earthengine.google.com/808172f2afcfc353e5f34003aafe6ea4?noload=true).
 
 The data should be placed in `crop-type-segmentation/data`.
 
