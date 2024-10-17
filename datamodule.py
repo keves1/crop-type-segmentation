@@ -17,6 +17,7 @@ from rastervision.pytorch_learner import SemanticSegmentationSlidingWindowGeoDat
 from shapely.geometry import Polygon
 import torch
 from torch.utils.data import DataLoader
+import albumentations as A
 
 from cropland_data_layer_class_table import class_info
 
@@ -31,6 +32,9 @@ class CropTypeDataModule(pl.LightningDataModule):
         img_size: int,
         batch_size: int,
         num_workers: int,
+        use_randomrotate90: bool = False,
+        use_flip: bool = False,
+        use_transpose: bool = False,
     ) -> None:
         super().__init__()
         self.data_dir = Path(data_dir)
@@ -40,8 +44,11 @@ class CropTypeDataModule(pl.LightningDataModule):
         self.img_size = img_size
         self.batch_size = batch_size
         self.num_workers = num_workers
+        self.use_randomrotate90 = use_randomrotate90
+        self.use_flip = use_flip
+        self.use_transpose = use_transpose
 
-    def setup(self) -> None:
+    def setup(self, stage) -> None:
         months_regex = (
             f"Landsat9_Composite_2022_0[{''.join(map(str, self.months))}].tiff"
         )
@@ -134,8 +141,23 @@ class CropTypeDataModule(pl.LightningDataModule):
             aoi_polygons=[val_aoi],
         )
 
+        train_transforms = []
+        if self.use_randomrotate90:
+            train_transforms.append(A.RandomRotate90(p=0.5))
+        if self.use_flip:
+            train_transforms.append(A.HorizontalFlip(p=0.5))
+            train_transforms.append(A.VerticalFlip(p=0.5))
+        if self.use_transpose:
+            train_transforms.append(A.Transpose(p=0.5))
+
+        train_transforms = A.Compose(train_transforms)
+
         self.train_dataset = SemanticSegmentationSlidingWindowGeoDataset(
-            train_scene, size=self.img_size, stride=self.img_size, padding=0
+            train_scene,
+            size=self.img_size,
+            stride=self.img_size,
+            padding=0,
+            transform=train_transforms,
         )
         self.val_dataset = SemanticSegmentationSlidingWindowGeoDataset(
             val_scene, size=self.img_size, stride=self.img_size, padding=0
