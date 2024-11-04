@@ -34,6 +34,12 @@ To train the model, run `train.ipynb`, and test using `test.ipynb`
 
 ### Results
 
+The multi-temporal model had a significant performance improvement, as shown below.
+
+Sample results:
+
+![results comparision](results-comparison.png)
+
 Average validation set results:
 
 |                  | Macro F1 | Weighted F1 |
